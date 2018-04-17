@@ -1,0 +1,206 @@
+
+<!DOCTYPE html
+  PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+<html><head>
+      <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+   <!--
+This HTML was auto-generated from MATLAB code.
+To make changes, update the MATLAB code and republish this document.
+      --><title>smovtoCPos</title><meta name="generator" content="MATLAB 9.0"><link rel="schema.DC" href="http://purl.org/dc/elements/1.1/"><meta name="DC.date" content="2018-04-14"><meta name="DC.source" content="smovtoCPos.m"><style type="text/css">
+html,body,div,span,applet,object,iframe,h1,h2,h3,h4,h5,h6,p,blockquote,pre,a,abbr,acronym,address,big,cite,code,del,dfn,em,font,img,ins,kbd,q,s,samp,small,strike,strong,sub,sup,tt,var,b,u,i,center,dl,dt,dd,ol,ul,li,fieldset,form,label,legend,table,caption,tbody,tfoot,thead,tr,th,td{margin:0;padding:0;border:0;outline:0;font-size:100%;vertical-align:baseline;background:transparent}body{line-height:1}ol,ul{list-style:none}blockquote,q{quotes:none}blockquote:before,blockquote:after,q:before,q:after{content:'';content:none}:focus{outine:0}ins{text-decoration:none}del{text-decoration:line-through}table{border-collapse:collapse;border-spacing:0}
+
+html { min-height:100%; margin-bottom:1px; }
+html body { height:100%; margin:0px; font-family:Arial, Helvetica, sans-serif; font-size:10px; color:#000; line-height:140%; background:#fff none; overflow-y:scroll; }
+html body td { vertical-align:top; text-align:left; }
+
+h1 { padding:0px; margin:0px 0px 25px; font-family:Arial, Helvetica, sans-serif; font-size:1.5em; color:#d55000; line-height:100%; font-weight:normal; }
+h2 { padding:0px; margin:0px 0px 8px; font-family:Arial, Helvetica, sans-serif; font-size:1.2em; color:#000; font-weight:bold; line-height:140%; border-bottom:1px solid #d6d4d4; display:block; }
+h3 { padding:0px; margin:0px 0px 5px; font-family:Arial, Helvetica, sans-serif; font-size:1.1em; color:#000; font-weight:bold; line-height:140%; }
+
+a { color:#005fce; text-decoration:none; }
+a:hover { color:#005fce; text-decoration:underline; }
+a:visited { color:#004aa0; text-decoration:none; }
+
+p { padding:0px; margin:0px 0px 20px; }
+img { padding:0px; margin:0px 0px 20px; border:none; }
+p img, pre img, tt img, li img, h1 img, h2 img { margin-bottom:0px; } 
+
+ul { padding:0px; margin:0px 0px 20px 23px; list-style:square; }
+ul li { padding:0px; margin:0px 0px 7px 0px; }
+ul li ul { padding:5px 0px 0px; margin:0px 0px 7px 23px; }
+ul li ol li { list-style:decimal; }
+ol { padding:0px; margin:0px 0px 20px 0px; list-style:decimal; }
+ol li { padding:0px; margin:0px 0px 7px 23px; list-style-type:decimal; }
+ol li ol { padding:5px 0px 0px; margin:0px 0px 7px 0px; }
+ol li ol li { list-style-type:lower-alpha; }
+ol li ul { padding-top:7px; }
+ol li ul li { list-style:square; }
+
+.content { font-size:1.2em; line-height:140%; padding: 20px; }
+
+pre, code { font-size:12px; }
+tt { font-size: 1.2em; }
+pre { margin:0px 0px 20px; }
+pre.codeinput { padding:10px; border:1px solid #d3d3d3; background:#f7f7f7; }
+pre.codeoutput { padding:10px 11px; margin:0px 0px 20px; color:#4c4c4c; }
+pre.error { color:red; }
+
+@media print { pre.codeinput, pre.codeoutput { word-wrap:break-word; width:100%; } }
+
+span.keyword { color:#0000FF }
+span.comment { color:#228B22 }
+span.string { color:#A020F0 }
+span.untermstring { color:#B20000 }
+span.syscmd { color:#B28C00 }
+
+.footer { width:auto; padding:10px 0px; margin:25px 0px 0px; border-top:1px dotted #878787; font-size:0.8em; line-height:140%; font-style:italic; color:#878787; text-align:left; float:none; }
+.footer p { margin:0px; }
+.footer a { color:#878787; }
+.footer a:hover { color:#878787; text-decoration:underline; }
+.footer a:visited { color:#878787; }
+
+table th { padding:7px 5px; text-align:left; vertical-align:middle; border: 1px solid #d6d4d4; font-weight:bold; }
+table td { padding:7px 5px; text-align:left; vertical-align:top; border:1px solid #d6d4d4; }
+
+
+
+
+
+  </style></head><body><div class="content"><h1>smovtoCPos</h1><!--introduction--><p>Simultaneously move all 3 Herkulex motors to 3 different positions</p><!--/introduction--><h2>Contents</h2><div><ul><li><a href="#1">Syntax</a></li><li><a href="#2">Descriptions</a></li><li><a href="#3">Input Arguments</a></li><li><a href="#4">Function Codes</a></li></ul></div><h2>Syntax<a name="1"></a></h2><pre class="language-matlab">smovtoPos(sObject,pID1,CVal1,pID2,CVal2,pID3,CVal3,varargin)
+</pre><h2>Descriptions<a name="2"></a></h2><p>Controlling multiple motors simultaneously by extending the original single motor controlling's packet. Note that the position is the calibrated position.</p><div><ul><li>Packet requires 1 byte for Playtime and 4 bytes for each motor. Eg, optional data length of 41 bytes required if sending instructions to 10 motors simultaneously.</li><li>Default playtime value: 60 (60*11.2ms = 672ms)</li><li>For code to be executed properly, please follow the following convention of motor ID setting: Btm max ID, Mid intermediate ID, Top min ID. Eg, Btm pID: 253, Mid pID: 252, Top pID: 251.</li></ul></div><h2>Input Arguments<a name="3"></a></h2><div><ul><li>sObject - serial port object</li><li>pID1, pID2, pID3 - integer</li><li>CVal1, CVal2, CVal3 - integer</li><li>varargin - integer</li></ul></div><h2>Function Codes<a name="4"></a></h2><pre class="codeinput"><span class="keyword">function</span> smovtoCPos(sObject, pID1, CVal1, pID2, CVal2, pID3, CVal3,varargin)
+    <span class="comment">% Setting default playtime</span>
+    <span class="keyword">if</span> nargin == 7
+        playtime = 672/11.2;    <span class="comment">% Default playtime value 672ms/11.2ms = 60</span>
+        pTime = dec2hex(int64(playtime),2); <span class="comment">% Value converted into hex for packet</span>
+    <span class="keyword">elseif</span> nargin == 8
+        V = cell2mat(varargin);  <span class="comment">% Convert varargin into number</span>
+        playtime = V/11.2;  <span class="comment">% Convert into values</span>
+        pTime = dec2hex(int64(playtime),2);
+    <span class="keyword">else</span>
+        error(<span class="string">'Please input only 7 to 8 arguments!'</span>);
+    <span class="keyword">end</span>
+
+    <span class="comment">% Initialize variables</span>
+    pID = [pID1,pID2,pID3];
+    CVal = [512,512,512];
+
+    <span class="keyword">for</span> i=1:3
+        <span class="comment">% Check input value range for top and btm motors</span>
+        <span class="keyword">if</span>(pID(i)==max(pID) || pID(i)==min(pID))
+            <span class="comment">% Using general check value function</span>
+            checkCVal(sObject,pID(i),CVal(i));
+
+        <span class="comment">% Check middle motor specifically due to smaller range (middle bracket)</span>
+        <span class="keyword">else</span>
+            checkCVal(sObject,pID(i),CVal(i),252);
+        <span class="keyword">end</span>
+    <span class="keyword">end</span>
+
+    <span class="comment">% Convert values into hex for packet</span>
+    <span class="comment">% Byte in reverse order by Little Endian Order</span>
+    <span class="comment">% pos1: motor pID1, pos2: motor pID2, pos3: motor pID3</span>
+    pos1 = dec2hex(CVal1,4);
+    pos1 = strcat(pos1(3:4),pos1(1:2));
+    pos2 = dec2hex(CVal2,4);
+    pos2 = strcat(pos2(3:4),pos2(1:2));
+    pos3 = dec2hex(CVal3,4);
+    pos3 = strcat(pos3(3:4),pos3(1:2));
+
+    <span class="comment">% Construct packet</span>
+    data = strcat([pTime,pos1,<span class="string">'04'</span>,dec2hex(pID1,2),pos2,<span class="string">'04'</span>,dec2hex(pID2,2),pos3,<span class="string">'04'</span>,dec2hex(pID3,2)]);
+    packet = pkGen(254,06,data);
+    inHkx(sObject, packet);
+
+    <span class="comment">% Confirm adsolute end positions of each motor</span>
+    pause(1);
+
+    <span class="keyword">for</span> id = pID(1):pID(3)
+        CPos = getCPos(sObject, id);
+        fprintf(<span class="string">'Motor %d at calibrated position %d\n'</span>, id, CPos);
+    <span class="keyword">end</span>
+
+<span class="keyword">end</span>
+</pre><p class="footer"><br><a href="http://www.mathworks.com/products/matlab/">Published with MATLAB&reg; R2016a</a><br></p></div><!--
+##### SOURCE BEGIN #####
+%% smovtoCPos
+% Simultaneously move all 3 Herkulex motors to 3 different positions
+
+%% Syntax
+%   smovtoPos(sObject,pID1,CVal1,pID2,CVal2,pID3,CVal3,varargin)
+
+%% Descriptions
+% Controlling multiple motors simultaneously by extending the original 
+% single motor controlling's packet. Note that the position is the
+% calibrated position.
+%
+% * Packet requires 1 byte for Playtime and 4 bytes for each motor.
+% Eg, optional data length of 41 bytes required if sending instructions to
+% 10 motors simultaneously.
+% * Default playtime value: 60 (60*11.2ms = 672ms)
+% * For code to be executed properly, please follow the following convention of motor ID setting: Btm max ID, Mid
+% intermediate ID, Top min ID. Eg, Btm pID: 253, Mid pID: 252, Top pID:
+% 251. 
+%
+
+%% Input Arguments
+% * sObject - serial port object
+% * pID1, pID2, pID3 - integer
+% * CVal1, CVal2, CVal3 - integer
+% * varargin - integer
+
+%% Function Codes
+function smovtoCPos(sObject, pID1, CVal1, pID2, CVal2, pID3, CVal3,varargin)
+    % Setting default playtime
+    if nargin == 7
+        playtime = 672/11.2;    % Default playtime value 672ms/11.2ms = 60
+        pTime = dec2hex(int64(playtime),2); % Value converted into hex for packet
+    elseif nargin == 8
+        V = cell2mat(varargin);  % Convert varargin into number
+        playtime = V/11.2;  % Convert into values
+        pTime = dec2hex(int64(playtime),2);
+    else
+        error('Please input only 7 to 8 arguments!');
+    end
+    
+    % Initialize variables
+    pID = [pID1,pID2,pID3];
+    CVal = [512,512,512];   
+
+    for i=1:3
+        % Check input value range for top and btm motors
+        if(pID(i)==max(pID) || pID(i)==min(pID))
+            % Using general check value function
+            checkCVal(sObject,pID(i),CVal(i));
+            
+        % Check middle motor specifically due to smaller range (middle bracket)
+        else 
+            checkCVal(sObject,pID(i),CVal(i),252);
+        end 
+    end
+    
+    % Convert values into hex for packet
+    % Byte in reverse order by Little Endian Order
+    % pos1: motor pID1, pos2: motor pID2, pos3: motor pID3
+    pos1 = dec2hex(CVal1,4);
+    pos1 = strcat(pos1(3:4),pos1(1:2));
+    pos2 = dec2hex(CVal2,4);
+    pos2 = strcat(pos2(3:4),pos2(1:2));
+    pos3 = dec2hex(CVal3,4);
+    pos3 = strcat(pos3(3:4),pos3(1:2));
+    
+    % Construct packet
+    data = strcat([pTime,pos1,'04',dec2hex(pID1,2),pos2,'04',dec2hex(pID2,2),pos3,'04',dec2hex(pID3,2)]);
+    packet = pkGen(254,06,data);
+    inHkx(sObject, packet);
+    
+    % Confirm adsolute end positions of each motor
+    pause(1);
+    
+    for id = pID(1):pID(3)
+        CPos = getCPos(sObject, id);
+        fprintf('Motor %d at calibrated position %d\n', id, CPos);
+    end
+    
+end
+##### SOURCE END #####
+--></body></html>
